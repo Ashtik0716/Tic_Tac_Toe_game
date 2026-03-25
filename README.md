@@ -4,6 +4,11 @@ A simple and interactive **Tic Tac Toe web application** built using HTML, CSS, 
 
 ---
 
+## 🚀 Live Demo  
+https://ashtik0716.github.io/Tic_Tac_Toe_game/
+
+---
+
 ## 🚀 Features
 
 - 🟢 Two-player gameplay (X vs O)
