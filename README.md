@@ -43,7 +43,7 @@ https://ashtik0716.github.io/Tic_Tac_Toe_game/
 
 ## 📸 Preview
 
-<img width="818" height="868" alt="image" src="https://github.com/user-attachments/assets/69b304b4-fe59-452a-bc87-c15d03b19743" />
+<img width="688" height="873" alt="image" src="https://github.com/user-attachments/assets/e98c25e5-4a8b-4717-bdc0-1c7542b69b2a" />
 
 
 ---
