@@ -11,6 +11,27 @@ let turnO = true;
 let isComputerGame = false;
 let isComputerTurn = false;
 
+let scoreO = 0;
+let scoreX = 0;
+let scoreTies = 0;
+let scoreOEl = document.getElementById("score-o");
+let scoreXEl = document.getElementById("score-x");
+let scoreTiesEl = document.getElementById("score-ties");
+let labelX = document.getElementById("label-x");
+
+const updateScoreboard = () => {
+    if(scoreOEl) scoreOEl.innerText = scoreO;
+    if(scoreXEl) scoreXEl.innerText = scoreX;
+    if(scoreTiesEl) scoreTiesEl.innerText = scoreTies;
+};
+
+const resetScores = () => {
+    scoreO = 0;
+    scoreX = 0;
+    scoreTies = 0;
+    updateScoreboard();
+};
+
 let audioCtx;
 
 const initAudio = () => {
@@ -108,6 +129,11 @@ const enableBoxes = () => {
 
 const showWinner = (winner, pattern) => {
     playSound('win');
+    
+    if (winner === "O") scoreO++;
+    else scoreX++;
+    updateScoreboard();
+
     msg.innerText = `Congratulations, winner is ${winner}`;
     msgContainer.classList.remove("hide");
 
@@ -122,6 +148,10 @@ const showWinner = (winner, pattern) => {
 
 const showDraw = () => {
     playSound('draw');
+    
+    scoreTies++;
+    updateScoreboard();
+
     msg.innerText = "Game was a Draw!";
     msgContainer.classList.remove("hide");
     disableBoxes();
@@ -170,51 +200,86 @@ const resetGame = () => {
     msgContainer.classList.add("hide");
 };
 
+const evaluateBoard = (board) => {
+    for (let pattern of winPatterns) {
+        let pos1 = board[pattern[0]];
+        let pos2 = board[pattern[1]];
+        let pos3 = board[pattern[2]];
+
+        if (pos1 !== "" && pos1 === pos2 && pos2 === pos3) {
+            return pos1 === "X" ? 10 : -10;
+        }
+    }
+    return 0;
+};
+
+const minimax = (board, depth, isMaximizing) => {
+    let score = evaluateBoard(board);
+    if (score === 10) return score - depth;
+    if (score === -10) return score + depth;
+    if (!board.includes("")) return 0;
+
+    if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === "") {
+                board[i] = "X";
+                best = Math.max(best, minimax(board, depth + 1, false));
+                board[i] = "";
+            }
+        }
+        return best;
+    } else {
+        let best = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === "") {
+                board[i] = "O";
+                best = Math.min(best, minimax(board, depth + 1, true));
+                board[i] = "";
+            }
+        }
+        return best;
+    }
+};
+
 const computerMove = () => {
-    let availableBoxes = [];
-    boxes.forEach((box, index) => {
-        if (box.innerText === "") {
-            availableBoxes.push(index);
+    let board = [];
+    boxes.forEach(box => board.push(box.innerText));
+
+    if (!board.includes("")) return;
+
+    let bestVal = -Infinity;
+    let bestMove = -1;
+
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === "") {
+            board[i] = "X";
+            let moveVal = minimax(board, 0, false);
+            board[i] = "";
+
+            if (moveVal > bestVal) {
+                bestMove = i;
+                bestVal = moveVal;
+            }
         }
-    });
-
-    if (availableBoxes.length === 0) return;
-
-    let moveIndex = -1;
-
-    for (let currentTurn of ["X", "O"]) {
-        for (let pattern of winPatterns) {
-            let pos1 = boxes[pattern[0]].innerText;
-            let pos2 = boxes[pattern[1]].innerText;
-            let pos3 = boxes[pattern[2]].innerText;
-
-            if (pos1 === currentTurn && pos2 === currentTurn && pos3 === "") moveIndex = pattern[2];
-            else if (pos1 === currentTurn && pos3 === currentTurn && pos2 === "") moveIndex = pattern[1];
-            else if (pos2 === currentTurn && pos3 === currentTurn && pos1 === "") moveIndex = pattern[0];
-
-            if (moveIndex !== -1) break;
-        }
-        if (moveIndex !== -1) break;
     }
 
-    if (moveIndex === -1) {
-        let randomIndex = Math.floor(Math.random() * availableBoxes.length);
-        moveIndex = availableBoxes[randomIndex];
+    if (bestMove !== -1) {
+        boxes[bestMove].innerText = "X";
+        boxes[bestMove].disabled = true;
+        turnO = true;
+        count++;
+        isComputerTurn = false;
+
+        playSound('click');
+        checkWinner();
     }
-
-    boxes[moveIndex].innerText = "X";
-    boxes[moveIndex].disabled = true;
-    turnO = true;
-    count++;
-    isComputerTurn = false;
-
-    playSound('click');
-
-    checkWinner();
 };
 
 pvpBtn.addEventListener("click", () => {
     isComputerGame = false;
+    if(labelX) labelX.innerText = "P2 (X)";
+    resetScores();
     pvpBtn.classList.add("active");
     pvcBtn.classList.remove("active");
     resetGame();
@@ -222,6 +287,8 @@ pvpBtn.addEventListener("click", () => {
 
 pvcBtn.addEventListener("click", () => {
     isComputerGame = true;
+    if(labelX) labelX.innerText = "CPU (X)";
+    resetScores();
     pvcBtn.classList.add("active");
     pvpBtn.classList.remove("active");
     resetGame();
