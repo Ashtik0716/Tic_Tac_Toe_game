@@ -23,6 +23,7 @@ body{
     justify-content: center;
     align-items: center;
     gap: 1.5vmin;
+    position: relative;
 }
 
 .box{
@@ -75,4 +76,53 @@ body{
 h1{
     color: #F7C85C;
     font-size: 10vmin;
+}
+
+.mode-selection{
+    margin-bottom: 2vmin;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.mode-btn{
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    background-color: #548587;
+    color: #fff;
+    border: 2px solid #191913;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.mode-btn.active{
+    background-color: #191913;
+}
+
+.winning-line {
+    position: absolute;
+    background-color: #191913;
+    border-radius: 1vmin;
+    z-index: 10;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.line-0-1-2 { top: 10vmin; left: 1.5vmin; width: 57vmin; height: 1vmin; }
+.line-3-4-5 { top: 29.5vmin; left: 1.5vmin; width: 57vmin; height: 1vmin; }
+.line-6-7-8 { top: 49vmin; left: 1.5vmin; width: 57vmin; height: 1vmin; }
+
+.line-0-3-6 { top: 1.5vmin; left: 10vmin; width: 1vmin; height: 57vmin; }
+.line-1-4-7 { top: 1.5vmin; left: 29.5vmin; width: 1vmin; height: 57vmin; }
+.line-2-5-8 { top: 1.5vmin; left: 49vmin; width: 1vmin; height: 57vmin; }
+
+.line-0-4-8 { 
+    top: 29.5vmin; left: -10vmin; 
+    width: 80vmin; height: 1vmin; 
+    transform: rotate(45deg); 
+}
+.line-2-4-6 { 
+    top: 29.5vmin; left: -10vmin; 
+    width: 80vmin; height: 1vmin; 
+    transform: rotate(-45deg); 
 }
