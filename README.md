@@ -1,6 +1,6 @@
 # 🎮 Tic Tac Toe Game
 
-An interactive Tic Tac Toe game built using **HTML, CSS, and JavaScript**, featuring both **AI mode** and **multiplayer mode**.
+An interactive Tic Tac Toe game built using **HTML, CSS, and JavaScript**, featuring both **AI mode** and **multiplayer mode**, along with enhanced user experience using animations and sound effects.
 
 ---
 
@@ -11,12 +11,17 @@ https://ashtik0716.github.io/Tic_Tac_Toe_game/
 
 ## 🚀 Features
 
-- 🤖 **AI Mode** (Player vs Computer)  
-- 👥 **Multiplayer Mode** (Player vs Player)  
-- 🏆 Winner detection  
-- 🤝 Draw detection  
-- 🔄 Reset & New Game functionality  
-- 💡 Clean and responsive UI  
+🤖 **AI Mode (Player vs Computer)**
+- Intelligent move selection (win → block → random)
+- 👥 **Multiplayer Mode (Player vs Player)**
+- 🎛️ Mode selection (AI / Multiplayer)
+- 🏆 Winner detection system
+- 🤝 Draw detection
+- 🎯 Winning line animation
+- 🔊 Sound effects (click, win, draw)
+- 🔄 Reset & New Game functionality
+- 📱 Responsive design
+
 
 ---
 
@@ -29,7 +34,16 @@ https://ashtik0716.github.io/Tic_Tac_Toe_game/
 
 ### 👥 Multiplayer Mode
 - Two players play on the same device  
-- Alternate turns (X and O)  
+- Alternate turns (X and O)
+
+---
+
+## 🧠 AI Logic
+
+The AI follows a strategic approach:
+1. Try to **win** if possible  
+2. **Block opponent** if they are about to win  
+3. Otherwise, choose a **random available move**
 
 ---
 
