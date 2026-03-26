@@ -57,7 +57,8 @@ The AI follows a strategic approach:
 
 ## 📸 Preview
 
-<img width="688" height="873" alt="image" src="https://github.com/user-attachments/assets/e98c25e5-4a8b-4717-bdc0-1c7542b69b2a" />
+<img width="706" height="826" alt="image" src="https://github.com/user-attachments/assets/ebf34f75-fa24-4209-b330-eda54d02e4b8" />
+
 
 
 ---
