@@ -11,6 +11,51 @@ let turnO = true;
 let isComputerGame = false;
 let isComputerTurn = false;
 
+let audioCtx;
+
+const initAudio = () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+};
+
+const playTone = (freq, toneType, duration, vol, delay) => {
+    initAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = toneType;
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    let now = audioCtx.currentTime + delay;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(vol, now + 0.05);
+    gain.gain.setValueAtTime(vol, now + Math.max(0, duration - 0.1));
+    gain.gain.linearRampToValueAtTime(0, now + duration);
+
+    osc.start(now);
+    osc.stop(now + duration);
+};
+
+const playSound = (event) => {
+    if (event === 'click') {
+        playTone(600, 'sine', 0.1, 0.1, 0);
+    } else if (event === 'win') {
+        playTone(440, 'sine', 0.3, 0.1, 0);
+        playTone(554.37, 'sine', 0.3, 0.1, 0.1);
+        playTone(659.25, 'sine', 0.3, 0.1, 0.2);
+        playTone(880, 'sine', 0.5, 0.1, 0.3);
+    } else if (event === 'draw') {
+        playTone(300, 'triangle', 0.3, 0.1, 0);
+        playTone(270, 'triangle', 0.3, 0.1, 0.2);
+        playTone(200, 'triangle', 0.5, 0.1, 0.4);
+    }
+};
+
 const winPatterns = [
     [0, 1, 2],
     [0, 3, 6],
@@ -22,14 +67,16 @@ const winPatterns = [
     [6, 7, 8]
 ];
 
-boxes.forEach((box) =>{
-    box.addEventListener("click", () =>{
+boxes.forEach((box) => {
+    box.addEventListener("click", () => {
         if (isComputerGame && isComputerTurn) return;
 
-        if(turnO){
+        playSound('click');
+
+        if (turnO) {
             box.innerText = "O";
             turnO = false;
-        }else{
+        } else {
             box.innerText = "X";
             turnO = true;
         }
@@ -46,25 +93,26 @@ boxes.forEach((box) =>{
     });
 });
 
-const disableBoxes = () =>{
-    for(let box of boxes){
+const disableBoxes = () => {
+    for (let box of boxes) {
         box.disabled = true;
     }
 };
 
-const enableBoxes = () =>{
-    for(let box of boxes){
+const enableBoxes = () => {
+    for (let box of boxes) {
         box.disabled = false;
         box.innerText = "";
     }
 };
 
 const showWinner = (winner, pattern) => {
+    playSound('win');
     msg.innerText = `Congratulations, winner is ${winner}`;
     msgContainer.classList.remove("hide");
-    
+
     let lineElement = document.getElementById("winning-line");
-    if(lineElement) {
+    if (lineElement) {
         let lineClass = `line-${pattern[0]}-${pattern[1]}-${pattern[2]}`;
         lineElement.className = `winning-line ${lineClass}`;
     }
@@ -73,35 +121,36 @@ const showWinner = (winner, pattern) => {
 };
 
 const showDraw = () => {
+    playSound('draw');
     msg.innerText = "Game was a Draw!";
     msgContainer.classList.remove("hide");
     disableBoxes();
 };
 
-const checkWinner = () =>{
+const checkWinner = () => {
     isWinner = false;
 
-    for(let pattern of winPatterns){
+    for (let pattern of winPatterns) {
         console.log(pattern[0], pattern[1], pattern[2]);
         console.log(
-            boxes[pattern[0]].innerText, 
-            boxes[pattern[1]].innerText, 
+            boxes[pattern[0]].innerText,
+            boxes[pattern[1]].innerText,
             boxes[pattern[2]].innerText
         );
         let pos1val = boxes[pattern[0]].innerText;
         let pos2val = boxes[pattern[1]].innerText;
         let pos3val = boxes[pattern[2]].innerText;
 
-        if(pos1val != "" && pos2val != "" && pos3val != ""){
-            if(pos1val === pos2val && pos2val==pos3val ){
-               showWinner(pos1val, pattern);
-               isWinner = true;
-               return;
+        if (pos1val != "" && pos2val != "" && pos3val != "") {
+            if (pos1val === pos2val && pos2val == pos3val) {
+                showWinner(pos1val, pattern);
+                isWinner = true;
+                return;
             }
         }
     }
 
-    if(count ===9 && !isWinner){
+    if (count === 9 && !isWinner) {
         showDraw()
     }
 };
@@ -111,9 +160,9 @@ const resetGame = () => {
     count = 0;
     isWinner = false;
     isComputerTurn = false;
-    
+
     let lineElement = document.getElementById("winning-line");
-    if(lineElement) {
+    if (lineElement) {
         lineElement.className = "winning-line hide";
     }
 
@@ -158,6 +207,9 @@ const computerMove = () => {
     turnO = true;
     count++;
     isComputerTurn = false;
+
+    playSound('click');
+
     checkWinner();
 };
 
