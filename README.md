@@ -1,6 +1,6 @@
 # 🎮 Tic Tac Toe Game
 
-A simple and interactive **Tic Tac Toe web application** built using HTML, CSS, and JavaScript. This project demonstrates core concepts of DOM manipulation, game logic, and user interaction.
+An interactive Tic Tac Toe game built using **HTML, CSS, and JavaScript**, featuring both **AI mode** and **multiplayer mode**.
 
 ---
 
@@ -11,11 +11,25 @@ https://ashtik0716.github.io/Tic_Tac_Toe_game/
 
 ## 🚀 Features
 
-- 🟢 Two-player gameplay (X vs O)
-- 🎯 Automatic winner detection
-- 🤝 Draw detection
-- 🔄 Reset & New Game functionality
-- 💡 Clean and responsive UI
+- 🤖 **AI Mode** (Player vs Computer)  
+- 👥 **Multiplayer Mode** (Player vs Player)  
+- 🏆 Winner detection  
+- 🤝 Draw detection  
+- 🔄 Reset & New Game functionality  
+- 💡 Clean and responsive UI  
+
+---
+
+## 🎮 Game Modes
+
+### 🤖 AI Mode
+- Play against the computer  
+- Computer automatically makes moves  
+- Great for practice  
+
+### 👥 Multiplayer Mode
+- Two players play on the same device  
+- Alternate turns (X and O)  
 
 ---
 
@@ -34,9 +48,10 @@ https://ashtik0716.github.io/Tic_Tac_Toe_game/
 
 ---
 
-## 🎮 How to Play
+## 🎯 How to Play
 
-1. Player **O** starts the game  
-2. Players take turns clicking on empty boxes  
-3. First player to align 3 marks (row, column, diagonal) wins  
-4. If all boxes are filled with no winner → it's a draw  
+1. Choose a game mode (AI or Multiplayer)  
+2. Player **O** starts first  
+3. Take turns placing marks  
+4. First to align 3 marks wins  
+5. If all boxes fill → Draw  
